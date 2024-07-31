@@ -111,12 +111,14 @@ function CustomerDetails() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-[8px]">
+      <div className="">
       <TextField
         title="Full Name"
         type="text"
         value={checkoutDetailsContext?.customer.fullName}
         onChange={(e) => { checkoutDetailsContext?.updateCustomer({ fullName: e.target.value }) }}
       />
+      </div>
       <TextField
         title="Email"
         type="text"

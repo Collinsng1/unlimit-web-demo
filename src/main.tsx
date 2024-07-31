@@ -48,7 +48,9 @@ function NavBar() {
     <>
       <div className="h-[72px] border-b-[2px] px-[16px] lg-[0px]">
         <div className="container  h-full mx-auto flex flex-row items-center" >
-          <img src={unlimitLogo} alt="unlimit-logo" className='h-[24px]' />
+          <a href="/">
+            <img src={unlimitLogo} alt="unlimit-logo" className='h-[24px]' />
+          </a>
           <div className="flex-1" />
           <img className='aspect-square h-[24px]' src="https://img.icons8.com/small/96/settings--v1.png" alt="settings--v1" onClick={() => { setIsModalOpen(true) }} />
         </div>

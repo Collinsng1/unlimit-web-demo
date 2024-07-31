@@ -124,12 +124,21 @@ export default function PaymentS2SComponent() {
             <div className={`${is3DSPageOpen ? "fixed" : "hidden"} inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50`}>
                 <iframe className="h-[75vh] w-[75vw] rounded-[16px]" ref={iframeRef} src={"https://unlimt-demo.web.app/3ds"} />
             </div>
-            <PaymentInputsWrapper {...wrapperProps}>
-                <svg {...getCardImageProps({ ...images })} />
-                <input {...getCardNumberProps({ onChange: (e) => { setCardNumber(e.target.value) } })} value={cardNumber} />
-                <input {...getExpiryDateProps({ onChange: (e) => { setExpiryDate(e.target.value) } })} value={expiryDate} />
-                <input {...getCVCProps({ onChange: (e) => { setCVV(e.target.value) } })} value={cvv} />
-            </PaymentInputsWrapper>
+            <div className="flex flex-col mb-[16px]">
+                <div className="flex flex-row border rounded-[16px] h-[56px] overflow-hidden px-[16px]  items-center">
+                    <svg className="mr-[8px]" {...getCardImageProps({ images })} />
+                    <div className="flex flex-[3]">
+                        <input className="w-full border-none outline-none  bg-transparent placeholder:text-[12px] text-[14px]"  {...getCardNumberProps({ onChange: (e) => { setCardNumber(e.target.value) } })} value={cardNumber} />
+                    </div>
+                    <div className="flex flex-1">
+                        <input className="w-full border-none outline-none flex-1 bg-transparent placeholder:text-[12px] text-[14px]" {...getExpiryDateProps({ onChange: (e) => { setExpiryDate(e.target.value) } })} value={expiryDate} />
+                    </div>
+                    <div className="flex flex-1">
+                        <input className="w-full border-none outline-none flex-1 bg-transparent placeholder:text-[12px] text-[14px]"  {...getCVCProps({ onChange: (e) => { setCVV(e.target.value) } })} value={cvv} />
+                    </div>
+                </div>
+                {meta.error && <div className="text-red-700 text-[12px]">{meta.error}</div>}
+            </div>
             <div className="w-full h-[64px] flex flex-row bg-yellow-400 rounded-[16px] justify-center items-center" onClick={() => { process() }}>
                 <div className="font-bold text-[16px]">Process Checkout</div>
             </div>
