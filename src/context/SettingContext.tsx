@@ -51,7 +51,7 @@ function SettingsProvider ({children} : {children : ReactNode}) {
         setPaymentData(prev => ({...prev, ...updates}))
     }
 
-    const [paymentMethod, setPaymentMethod] = useState("BANKCARDGW")
+    const [paymentMethod, setPaymentMethod] = useState("BANKCARDPP")
 
     return (
         <SettingsContext.Provider value={{env,updateENV, paymentData, updatePaymentData, paymentMethod, setPaymentMethod, returnURLs}}>

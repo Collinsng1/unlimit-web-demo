@@ -12,7 +12,7 @@ export default function TextField(props: Props) {
         <div className="flex flex-col">
             <div className="text-[12px] mb-[4px]">{props.title}</div>
             <input
-                className="border px-[16px] rounded-lg h-[56px] mb-[12px] "
+                className="px-[16px] rounded-lg h-[48px] mb-[12px] outline-none border border-gray-200 bg-gray-50"
                 type={props.type}
                 value={props.value}
                 onChange={props.onChange}

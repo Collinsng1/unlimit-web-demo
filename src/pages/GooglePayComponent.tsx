@@ -1,5 +1,5 @@
 import GooglePayButton from "@google-pay/button-react";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SettingsContext } from "../context/SettingContext";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken, requestPayment } from "../services/UnlimitService";

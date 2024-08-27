@@ -1,6 +1,4 @@
 import { useContext, useState } from "react";
-import { usePaymentInputs } from "react-payment-inputs";
-import images from 'react-payment-inputs/images';
 import { getAccessToken, requestPayment } from "../services/UnlimitService";
 import { CheckoutDetailsContext } from "../context/CheckoutDetailsContext";
 import { PayloadContext } from "../context/PayloadContext";
@@ -9,6 +7,8 @@ import { IPaymentRequest } from "../models/UnlimitAPIModel";
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import { convertDate } from "../utils";
+import CardInput from "../components/CardInput";
+import Button from "../components/Button";
 
 
 export default function PaymentGWComponent() {
@@ -17,17 +17,11 @@ export default function PaymentGWComponent() {
     const settingContext = useContext(SettingsContext)
     const payloadContext = useContext(PayloadContext)
 
-    const {
-        meta,
-        getCardImageProps,
-        getCardNumberProps,
-        getExpiryDateProps,
-        getCVCProps
-    } = usePaymentInputs();
 
     const [cardNumber, setCardNumber] = useState("")
     const [expiryDate, setExpiryDate] = useState("")
     const [cvv, setCVV] = useState("")
+    const [cardInputErr, setCardInputErr] = useState<string>()
     const [is3DSPageOpen, setIs3DSPageOpen] = useState<boolean>(false)
     const [redirectUrl, setRedirectUrl] = useState<string>("")
 
@@ -35,9 +29,7 @@ export default function PaymentGWComponent() {
 
     async function process() {
 
-        if (meta.error) {
-            return
-        }
+        if (cardInputErr) return
 
         const accessToken = await getAccessToken(settingContext!.env.terminal, settingContext!.env.password)
 
@@ -84,25 +76,16 @@ export default function PaymentGWComponent() {
                     <iframe className="h-[75vh] w-[75vw] rounded-[16px]" src={redirectUrl} />
                 </div>
             }
-            <div className="flex flex-col mb-[16px]">
-                <div className="flex flex-row border rounded-[16px] h-[56px] overflow-hidden px-[16px]  items-center">
-                    <svg className="mr-[8px]" {...getCardImageProps({ images })} />
-                    <div className="flex flex-[3]">
-                        <input className="w-full border-none outline-none  bg-transparent placeholder:text-[12px] text-[14px]"  {...getCardNumberProps({ onChange: (e) => { setCardNumber(e.target.value) } })} value={cardNumber} />
-                    </div>
-                    <div className="flex flex-1">
-                        <input className="w-full border-none outline-none flex-1 bg-transparent placeholder:text-[12px] text-[14px]" {...getExpiryDateProps({ onChange: (e) => { setExpiryDate(e.target.value) } })} value={expiryDate} />
-                    </div>
-                    <div className="flex flex-1">
-                        <input className="w-full border-none outline-none flex-1 bg-transparent placeholder:text-[12px] text-[14px]"  {...getCVCProps({ onChange: (e) => { setCVV(e.target.value) } })} value={cvv} />
-                    </div>
-                </div>
-                {meta.error && <div className="text-red-700 text-[12px]">{meta.error}</div>}
-            </div>
-
-            <div className="w-full h-[64px] flex flex-row bg-yellow-400 rounded-[16px] justify-center items-center" onClick={() => { process() }}>
-                <div className="font-bold text-[16px]">Process Checkout</div>
-            </div>
+            <CardInput
+                cardNumber={cardNumber}
+                expiryDate={expiryDate}
+                cvv={cvv}
+                onCardNumberChange={(n) => { setCardNumber(n) }}
+                onExpiryDateChange={(date) => setExpiryDate(date)}
+                onCVVChange={(cvv) => { setCVV(cvv) }}
+                onError={(err) => {setCardInputErr(err)}}
+            />
+            <Button title="Process Checkout" onClick={() => { process() }} />
         </div>
     )
 }

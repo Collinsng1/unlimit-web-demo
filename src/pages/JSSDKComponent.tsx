@@ -18,7 +18,7 @@ export default function JSSDKComponent() {
 
     const props = {
       urls: {
-        generateMobileToken: 'https://us-central1-unlimt-demo.cloudfunctions.net/api',
+        generateMobileToken: 'https://us-central1-unlimt-demo.cloudfunctions.net/api/mobile-token',
         cardBinding: 'https://sandbox.cardpay.com/api/mobile/payment',
       },
       enableRedirect: true,
@@ -26,8 +26,6 @@ export default function JSSDKComponent() {
         merchantOrder: checkoutContext?.merchantOrder,
         paymentMethod: "BANKCARD",
         paymentData: settingContext?.paymentData,
-        // shippingAddress: checkoutContext?.customer.shipping_address,
-        // billingAddress: checkoutContext?.customer.shipping_address,
         customer: checkoutContext?.customer, id: uuidv4(),
         returnUrls: {
           successUrl : "https://unlimt-demo.web.app/callback",

@@ -4,7 +4,6 @@ import googlePayLogo from "../assets/google-pay-mark_800.svg"
 import { useContext, useEffect } from "react";
 import { CheckoutDetailsContext } from "../context/CheckoutDetailsContext";
 import Divider from "../components/Divider";
-import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { SettingsContext } from "../context/SettingContext";
 import PaymentPageComponent from "./PaymentPageCompoent";
 import GooglePayComponent from "./GooglePayComponent";
@@ -13,12 +12,16 @@ import PaymentGWComponent from "./PaymentGWComponent";
 import PaymentS2SComponent from "./PaymentS2SComponent";
 import { IPaymentMethod, PaymentMethodType } from "../models/enums";
 import cardLogo from "../assets/icons8-debit-card-96.png"
+import alipayLogo from "../assets/alipayplus.svg"
+import { OutlinedSelectCard } from "../components/OutlinedSelectCard";
+import AlipayComponent from "./AlipayComponent";
+import ApplePayComponent from "./ApplePayComponent";
 
 const paymentMethods: { [key in PaymentMethodType]: IPaymentMethod } = {
   BANKCARDJS: {
     displayName: "Credit Card (JS SDK)",
     imgSrc: cardLogo,
-    terminalCode: "69711",
+    terminalCode: "69911",
     password: "a15935712X",
     children: JSSDKComponent
   },
@@ -43,6 +46,13 @@ const paymentMethods: { [key in PaymentMethodType]: IPaymentMethod } = {
     imgSrc: cardLogo,
     children: PaymentS2SComponent
   },
+  APPLEPAY: {
+    displayName: "Apple Pay",
+    imgSrc: applePayLogo,
+    terminalCode: "71189",
+    password: "a15935712X",
+    children: ApplePayComponent
+  },
   GOOGLEPAY: {
     displayName: "Google Pay",
     imgSrc: googlePayLogo,
@@ -50,6 +60,13 @@ const paymentMethods: { [key in PaymentMethodType]: IPaymentMethod } = {
     password: "a15935712X",
     children: GooglePayComponent
   },
+  // ALIPAYPLUS: {
+  //   displayName: "Alipay+",
+  //   imgSrc: alipayLogo,
+  //   terminalCode: "69711",
+  //   password: "a15935712X",
+  //   children : AlipayComponent
+  // }
 };
 
 
@@ -61,7 +78,7 @@ export default function HomePage() {
 
   useEffect(() => {
     settingContext?.updateENV({ terminal: paymentMethod.terminalCode, password: paymentMethod.password })
-  } , [settingContext?.paymentMethod])
+  }, [settingContext?.paymentMethod])
 
   return (
     <div className="container mx-auto flex flex-col px-[24px] lg:px-0 lg:flex-row mt-[32px]">
@@ -97,8 +114,8 @@ export function ItemCard() {
     <div className="flex flex-row h-[96px]">
       <img className="aspect-square rounded-lg mr-[24px]" src="https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_1280.jpg" alt="" />
       <div className="flex flex-col justify-center">
-        <div>Unlimit T-Shirt</div>
-        <div>{settingContext?.paymentData.currency}$ {settingContext?.paymentData.amount}</div>
+        <div className="font-bold text-[14px]">Unlimit T-Shirt</div>
+        <div className="text-[14px]">{settingContext?.paymentData.currency}$ {settingContext?.paymentData.amount}</div>
       </div>
 
     </div>
@@ -112,12 +129,12 @@ function CustomerDetails() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-[8px]">
       <div className="">
-      <TextField
-        title="Full Name"
-        type="text"
-        value={checkoutDetailsContext?.customer.fullName}
-        onChange={(e) => { checkoutDetailsContext?.updateCustomer({ fullName: e.target.value }) }}
-      />
+        <TextField
+          title="Full Name"
+          type="text"
+          value={checkoutDetailsContext?.customer.fullName}
+          onChange={(e) => { checkoutDetailsContext?.updateCustomer({ fullName: e.target.value }) }}
+        />
       </div>
       <TextField
         title="Email"
@@ -188,21 +205,21 @@ function PaymentMethodsSection() {
   const settingContext = useContext(SettingsContext)
 
   return (
-    <RadioGroup className="mb-[24px]" value={settingContext?.paymentMethod} onChange={settingContext?.setPaymentMethod}>
-      <div className="grid grids-cols-1 gap-2">
+      <div className="grid grids-cols-1 gap-2 mb-[16px]">
         {
-          Object.entries(paymentMethods).map( ([key, pm]) => {
+          Object.entries(paymentMethods).map(([key, pm]) => {
             return (
-              <div key={key} className="h-[96px] w-full flex flex-row p-[16px] items-center rounded-[16px] border">
-                <img className="aspect-square h-[40px] mr-[16px]" src={pm.imgSrc} alt={`${key}-logo`} />
-                <div>{pm.displayName}</div>
-                <div className="flex-1" />
-                <Radio value={key} />
-              </div>
+              <OutlinedSelectCard 
+              key={key} 
+              name={pm.displayName} 
+              imgUrl={pm.imgSrc} 
+              value={key} 
+              groupValue={settingContext!.paymentMethod} 
+              onChnage={(v) => {settingContext?.setPaymentMethod(v)}}  />
             )
           })
         }
       </div>
-    </RadioGroup>
   )
 }
+

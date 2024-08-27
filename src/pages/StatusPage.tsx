@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SettingsContext } from "../context/SettingContext";
-
 import { ItemCard } from "./HomePage.tsx";
 import Divider from "../components/Divider";
 import { CheckoutDetailsContext } from "../context/CheckoutDetailsContext";
@@ -14,7 +13,15 @@ export default function StatusPage() {
     const payloadContext = useContext(PayloadContext)
     const [searchParams] = useSearchParams();
 
+    //  Hook
+    const nav = useNavigate()
+
     useEffect(() => {
+
+        if(settingContext?.env.terminal === "" ||settingContext?.env.password === "") {
+            nav("/")
+            return
+        }
 
         const init = async () => {
             const accessToken = await getAccessToken(settingContext!.env.terminal, settingContext!.env.password)
