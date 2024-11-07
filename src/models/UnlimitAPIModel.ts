@@ -63,6 +63,8 @@ export interface IReturnURLs {
     success_url : string
     decline_url : string
     return_url? : string
+    cancel_url? : string
+    inprocess_url? : string
 }
 
 export interface IAddress {

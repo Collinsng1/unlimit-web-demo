@@ -6,7 +6,7 @@ interface State {
     setPayload: Dispatch<React.SetStateAction<PayloadState>>
 }
 
-interface PayloadState {
+export interface PayloadState {
     tokenReq?: any
     tokenRes?: any
     paymentReq?: any

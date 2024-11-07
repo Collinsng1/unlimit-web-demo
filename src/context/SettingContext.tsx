@@ -25,7 +25,7 @@ const envInitState : IENV = {
 
 const paymentDataInitState : IPaymentData = {
     amount: 10.00,
-    currency: "USD",
+    currency: "EUR",
     preauth: false,
     three_ds_mode: "01"
 }

@@ -1,11 +1,12 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SettingsContext } from "../context/SettingContext";
-import { ItemCard } from "./HomePage.tsx";
+import { ItemCard, paymentMethods } from "./HomePage.tsx";
 import Divider from "../components/Divider";
 import { CheckoutDetailsContext } from "../context/CheckoutDetailsContext";
 import { PayloadContext } from "../context/PayloadContext";
 import { getAccessToken, getPaymentDetails } from "../services/UnlimitService";
+import { getPayload } from "../services/PayloadService.ts";
 
 export default function StatusPage() {
 
@@ -18,14 +19,38 @@ export default function StatusPage() {
 
     useEffect(() => {
 
-        if(settingContext?.env.terminal === "" ||settingContext?.env.password === "") {
+        const merchantOrderId = searchParams.get("id")
+
+        if (!merchantOrderId) {
             nav("/")
             return
         }
-
+        
         const init = async () => {
-            const accessToken = await getAccessToken(settingContext!.env.terminal, settingContext!.env.password)
-            const payments = await getPaymentDetails(accessToken, searchParams.get("id")!)
+
+            let terminalId = settingContext?.env.terminal
+            let password = settingContext?.env.password
+
+            if(terminalId  === "" || password === "" || !terminalId || !password) {
+                const paylaod = await getPayload(merchantOrderId)
+                payloadContext?.setPayload(paylaod)
+
+                const paymentMethod = paylaod.paymentReq.payment_method
+
+                const data = Object.entries(paymentMethods).find(([pm]) => pm === paymentMethod)
+
+                if (!data) {
+                    nav("/")
+                    return
+                }
+                
+                terminalId = data[1].terminalCode
+                password = data[1].password
+            }
+    
+
+            const accessToken = await getAccessToken(terminalId, password)
+            const payments = await getPaymentDetails(accessToken, merchantOrderId)
 
             payloadContext?.setPayload(prev => ({...prev, paymentDetailsRes: payments["data"][0]}))
         }

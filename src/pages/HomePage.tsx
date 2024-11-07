@@ -13,60 +13,86 @@ import PaymentS2SComponent from "./PaymentS2SComponent";
 import { IPaymentMethod, PaymentMethodType } from "../models/enums";
 import cardLogo from "../assets/icons8-debit-card-96.png"
 import alipayLogo from "../assets/alipayplus.svg"
-import { OutlinedSelectCard } from "../components/OutlinedSelectCard";
-import AlipayComponent from "./AlipayComponent";
-import ApplePayComponent from "./ApplePayComponent";
+import codiLogo from "../assets/codi.svg"
+import oxxoLogo from "../assets/oxxo.svg"
+import speiLogo from "../assets/spei.svg"
 
-const paymentMethods: { [key in PaymentMethodType]: IPaymentMethod } = {
+import { OutlinedSelectCard } from "../components/OutlinedSelectCard";
+import ApplePayComponent from "./ApplePayComponent";
+import APMComponent from "./APMComponent";
+
+
+export const paymentMethods: { [key in PaymentMethodType]: IPaymentMethod } = {
   BANKCARDJS: {
     displayName: "Credit Card (JS SDK)",
     imgSrc: cardLogo,
     terminalCode: "69911",
     password: "a15935712X",
-    children: JSSDKComponent
+    children: <JSSDKComponent/>
   },
   BANKCARDPP: {
     displayName: "Credit Card (Payment Page)",
     imgSrc: cardLogo,
     terminalCode: "69711",
     password: "a15935712X",
-    children: PaymentPageComponent
+    children: <PaymentPageComponent/>
   },
   BANKCARDGW: {
     displayName: "Credit Card (Gateway)",
     terminalCode: "69911",
     password: "a15935712X",
     imgSrc: cardLogo,
-    children: PaymentGWComponent
+    children: <PaymentGWComponent/>
   },
   BANKCARDS2S: {
     displayName: "Credit Card (Server to Server)",
     terminalCode: "70029",
     password: "a15935712X",
     imgSrc: cardLogo,
-    children: PaymentS2SComponent
+    children: <PaymentS2SComponent/>
   },
   APPLEPAY: {
     displayName: "Apple Pay",
     imgSrc: applePayLogo,
     terminalCode: "71189",
     password: "a15935712X",
-    children: ApplePayComponent
+    children: <ApplePayComponent/>
   },
   GOOGLEPAY: {
     displayName: "Google Pay",
     imgSrc: googlePayLogo,
     terminalCode: "69911",
     password: "a15935712X",
-    children: GooglePayComponent
+    children: <GooglePayComponent/>
   },
-  // ALIPAYPLUS: {
-  //   displayName: "Alipay+",
-  //   imgSrc: alipayLogo,
-  //   terminalCode: "69711",
-  //   password: "a15935712X",
-  //   children : AlipayComponent
-  // }
+  ALIPAYPLUS: {
+    displayName: "Alipay+",
+    imgSrc: alipayLogo,
+    terminalCode: "69711",
+    password: "a15935712X",
+    children: <APMComponent apmName="ALIPAYPLUS"/>
+  },
+  SPEI: {
+    displayName: "SPEI",
+    imgSrc: speiLogo,
+    terminalCode: "69711",
+    password: "a15935712X",
+    children: <APMComponent apmName="SPEI"/>
+  },
+  OXXO: {
+    displayName: "OXXO",
+    imgSrc: oxxoLogo,
+    terminalCode: "69711",
+    password: "a15935712X",
+    children: <APMComponent apmName="OXXO"/>
+  },
+  CODI: {
+    displayName: "CODI",
+    imgSrc: codiLogo,
+    terminalCode: "69711",
+    password: "a15935712X",
+    children: <APMComponent apmName="CODI"/>
+  }
 };
 
 
@@ -97,9 +123,7 @@ export default function HomePage() {
       <div className="flex-1">
         <div className="mb-[16px] font-bold">Payment Methods</div>
         <PaymentMethodsSection />
-        {
-          paymentMethod ? <paymentMethod.children /> : <></>
-        }
+        {paymentMethod.children}
       </div>
     </div>
   )

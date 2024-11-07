@@ -4,7 +4,7 @@ export interface IPaymentMethod {
     imgSrc : string
     terminalCode : string
     password : string
-    children : React.ComponentType
+    children : JSX.Element
   }
 
-export type PaymentMethodType = 'BANKCARDJS' | 'BANKCARDPP' | 'BANKCARDGW' | 'BANKCARDS2S' | 'GOOGLEPAY' | 'APPLEPAY';
+export type PaymentMethodType = 'BANKCARDJS' | 'BANKCARDPP' | 'BANKCARDGW' | 'BANKCARDS2S' | 'GOOGLEPAY' | 'APPLEPAY' | "ALIPAYPLUS" | "SPEI" | "OXXO" | "CODI";
