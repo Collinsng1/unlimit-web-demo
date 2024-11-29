@@ -7,4 +7,4 @@ export interface IPaymentMethod {
     children : JSX.Element
   }
 
-export type PaymentMethodType = 'BANKCARDJS' | 'BANKCARDPP' | 'BANKCARDGW' | 'BANKCARDS2S' | 'GOOGLEPAY' | 'APPLEPAY' | "ALIPAYPLUS" | "SPEI" | "OXXO" | "CODI";
+export type PaymentMethodType = 'BANKCARDJS' | 'BANKCARDPP' | 'BANKCARDGW' | 'BANKCARDS2S' | 'GOOGLEPAY' | 'APPLEPAY' | "ALIPAYPLUS" | "SPEI" | "OXXO" | "CODI" | "AIRTELTZS";

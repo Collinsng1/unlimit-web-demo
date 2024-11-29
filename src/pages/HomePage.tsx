@@ -16,6 +16,7 @@ import alipayLogo from "../assets/alipayplus.svg"
 import codiLogo from "../assets/codi.svg"
 import oxxoLogo from "../assets/oxxo.svg"
 import speiLogo from "../assets/spei.svg"
+import airtelLogo from "../assets/airtelmoney.svg"
 
 import { OutlinedSelectCard } from "../components/OutlinedSelectCard";
 import ApplePayComponent from "./ApplePayComponent";
@@ -92,6 +93,13 @@ export const paymentMethods: { [key in PaymentMethodType]: IPaymentMethod } = {
     terminalCode: "69711",
     password: "a15935712X",
     children: <APMComponent apmName="CODI"/>
+  },
+  AIRTELTZS: {
+    displayName: "Airtel Money TZ",
+    imgSrc: airtelLogo,
+    terminalCode: "69711",
+    password: "a15935712X",
+    children: <APMComponent apmName="AIRTELTZS"/>
   }
 };
 

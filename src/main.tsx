@@ -13,6 +13,7 @@ import { PayloadProvider } from './context/PayloadContext.tsx'
 import unlimitLogo from "./assets/Unlimit_Logo.svg"
 import HomePage from './pages/HomePage.tsx'
 import ThreeDSPage from './pages/ThreeDSPage.tsx'
+import TestPage from './pages/TestPage.tsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                   <Route path='/status' element={<StatusPage />} />
                   <Route path='/callback' element={<CallbackPage />} />
                   <Route path='/3ds' element={<ThreeDSPage />} />
+                  <Route path='/debug' element={<TestPage />} />
               </Routes>
             </BrowserRouter>
           </PayloadProvider>

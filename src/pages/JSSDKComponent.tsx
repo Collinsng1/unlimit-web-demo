@@ -25,7 +25,10 @@ export default function JSSDKComponent() {
       data: {
         merchantOrder: checkoutContext?.merchantOrder,
         paymentMethod: "BANKCARD",
-        paymentData: settingContext?.paymentData,
+        paymentData: {
+          ...settingContext?.paymentData,
+          generateToken: true
+        },
         customer: checkoutContext?.customer, id: uuidv4(),
         returnUrls: {
           successUrl: "https://unlimt-demo.web.app/callback",

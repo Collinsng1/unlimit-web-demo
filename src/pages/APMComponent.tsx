@@ -36,11 +36,11 @@ export default function APMComponent({ apmName }: { apmName: string }) {
       payment_data: settingContext!.paymentData,
       customer: checkoutContext!.customer,
       return_urls: {
-        success_url: "http://localhost:5173/status?id=" + checkoutContext!.merchantOrder.id,
-        decline_url: "http://localhost:5173/status?id=" + checkoutContext!.merchantOrder.id,
-        return_url: "http://localhost:5173/callback",
-        cancel_url: "http://localhost:5173/callback",
-        inprocess_url: "http://localhost:5173/callback",
+        success_url: "https://unlimt-demo.web.app/status?id=" + checkoutContext!.merchantOrder.id,
+        decline_url: "https://unlimt-demo.web.app/status?id=" + checkoutContext!.merchantOrder.id,
+        return_url: "https://unlimt-demo.web.app/callback",
+        cancel_url: "https://unlimt-demo.web.app/callback",
+        inprocess_url: "https://unlimt-demo.web.app/callback",
       },
     }
 
