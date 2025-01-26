@@ -19,7 +19,7 @@ export default function JSSDKComponent() {
     const props = {
       urls: {
         generateMobileToken: 'https://us-central1-unlimt-demo.cloudfunctions.net/api/mobile-token',
-        cardBinding: 'https://sandbox.cardpay.com/api/mobile/payment',
+        payment: 'https://sandbox.cardpay.com/api/mobile/payment',
       },
       enableRedirect: true,
       data: {

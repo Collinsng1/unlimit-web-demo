@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { uploadPayload } from "../services/PayloadService";
 import { useNavigate } from "react-router-dom";
 import { PayloadContext } from "../context/PayloadContext";
+import { PaymentMethodType } from "../models/enums";
 
 
 export default function APMComponent({ apmName }: { apmName: string }) {
@@ -44,6 +45,9 @@ export default function APMComponent({ apmName }: { apmName: string }) {
       },
     }
 
+    if (settingContext?.paymentMethod as PaymentMethodType === "PIX") {
+      paymentRequest.customer.identity = "CPF123456"
+    }
 
     const paymentRes = await requestPayment(accessToken, paymentRequest)
 

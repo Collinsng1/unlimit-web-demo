@@ -32,6 +32,7 @@ export interface ICustomer {
     email: string
     phone?: string
     shipping_address?: IAddress
+    identity? : string
     ip? : string
     user_agent? : string
     browser_info? : IBrowserInfo

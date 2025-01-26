@@ -17,6 +17,7 @@ import codiLogo from "../assets/codi.svg"
 import oxxoLogo from "../assets/oxxo.svg"
 import speiLogo from "../assets/spei.svg"
 import airtelLogo from "../assets/airtelmoney.svg"
+import pix from "../assets/pix.svg"
 
 import { OutlinedSelectCard } from "../components/OutlinedSelectCard";
 import ApplePayComponent from "./ApplePayComponent";
@@ -29,77 +30,92 @@ export const paymentMethods: { [key in PaymentMethodType]: IPaymentMethod } = {
     imgSrc: cardLogo,
     terminalCode: "69911",
     password: "a15935712X",
-    children: <JSSDKComponent/>
+    children: <JSSDKComponent />
   },
   BANKCARDPP: {
     displayName: "Credit Card (Payment Page)",
     imgSrc: cardLogo,
     terminalCode: "69711",
     password: "a15935712X",
-    children: <PaymentPageComponent/>
+    children: <PaymentPageComponent />
   },
   BANKCARDGW: {
     displayName: "Credit Card (Gateway)",
     terminalCode: "69911",
     password: "a15935712X",
     imgSrc: cardLogo,
-    children: <PaymentGWComponent/>
+    children: <PaymentGWComponent />
   },
   BANKCARDS2S: {
     displayName: "Credit Card (Server to Server)",
     terminalCode: "70029",
     password: "a15935712X",
     imgSrc: cardLogo,
-    children: <PaymentS2SComponent/>
+    children: <PaymentS2SComponent />
   },
   APPLEPAY: {
     displayName: "Apple Pay",
     imgSrc: applePayLogo,
     terminalCode: "71189",
     password: "a15935712X",
-    children: <ApplePayComponent/>
+    children: <ApplePayComponent />
   },
   GOOGLEPAY: {
     displayName: "Google Pay",
     imgSrc: googlePayLogo,
     terminalCode: "69911",
     password: "a15935712X",
-    children: <GooglePayComponent/>
+    children: <GooglePayComponent />
   },
   ALIPAYPLUS: {
     displayName: "Alipay+",
     imgSrc: alipayLogo,
     terminalCode: "69711",
     password: "a15935712X",
-    children: <APMComponent apmName="ALIPAYPLUS"/>
+    children: <APMComponent apmName="ALIPAYPLUS" />
   },
   SPEI: {
     displayName: "SPEI",
     imgSrc: speiLogo,
     terminalCode: "69711",
     password: "a15935712X",
-    children: <APMComponent apmName="SPEI"/>
+    children: <APMComponent apmName="SPEI" />,
+    currency: "MXN",
+    defaultAmount: 1000
   },
   OXXO: {
     displayName: "OXXO",
     imgSrc: oxxoLogo,
     terminalCode: "69711",
     password: "a15935712X",
-    children: <APMComponent apmName="OXXO"/>
+    children: <APMComponent apmName="OXXO" />,
+    currency: "MXN",
+    defaultAmount: 1000
   },
   CODI: {
     displayName: "CODI",
     imgSrc: codiLogo,
     terminalCode: "69711",
     password: "a15935712X",
-    children: <APMComponent apmName="CODI"/>
+    currency: "MXN",
+    defaultAmount: 1000,
+    children: <APMComponent apmName="CODI" />
   },
   AIRTELTZS: {
     displayName: "Airtel Money TZ",
     imgSrc: airtelLogo,
     terminalCode: "69711",
     password: "a15935712X",
-    children: <APMComponent apmName="AIRTELTZS"/>
+    children: <APMComponent apmName="AIRTELTZS" />
+  },
+  PIX: {
+    displayName: "PIX",
+    imgSrc: pix,
+    terminalCode: "69711",
+    password: "a15935712X",
+    currency: "BRL",
+    defaultAmount: 1000,
+    children: <APMComponent apmName="PIX" />
   }
 };
 
@@ -112,6 +128,11 @@ export default function HomePage() {
 
   useEffect(() => {
     settingContext?.updateENV({ terminal: paymentMethod.terminalCode, password: paymentMethod.password })
+
+    if (paymentMethod.currency && paymentMethod.defaultAmount) {
+      settingContext?.updatePaymentData({currency: paymentMethod.currency, amount: paymentMethod.defaultAmount})
+    }
+
   }, [settingContext?.paymentMethod])
 
   return (
@@ -237,21 +258,21 @@ function PaymentMethodsSection() {
   const settingContext = useContext(SettingsContext)
 
   return (
-      <div className="grid grids-cols-1 gap-2 mb-[16px]">
-        {
-          Object.entries(paymentMethods).map(([key, pm]) => {
-            return (
-              <OutlinedSelectCard 
-              key={key} 
-              name={pm.displayName} 
-              imgUrl={pm.imgSrc} 
-              value={key} 
-              groupValue={settingContext!.paymentMethod} 
-              onChnage={(v) => {settingContext?.setPaymentMethod(v)}}  />
-            )
-          })
-        }
-      </div>
+    <div className="grid grids-cols-1 gap-2 mb-[16px]">
+      {
+        Object.entries(paymentMethods).map(([key, pm]) => {
+          return (
+            <OutlinedSelectCard
+              key={key}
+              name={pm.displayName}
+              imgUrl={pm.imgSrc}
+              value={key}
+              groupValue={settingContext!.paymentMethod}
+              onChnage={(v) => { settingContext?.setPaymentMethod(v) }} />
+          )
+        })
+      }
+    </div>
   )
 }
 
